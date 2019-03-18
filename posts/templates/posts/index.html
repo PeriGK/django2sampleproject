@@ -9,7 +9,8 @@
        <li class="list-group-item">
           <a href = "/posts/{{post.id}}">
                ID: {{post.id}} - Title : {{ post.title}}
-          </a>
+          </a> |
+          <a href="/posts/delete/{{post.id}}/"> Delete</a>
        </li>
     {% endfor %}
 </ul>

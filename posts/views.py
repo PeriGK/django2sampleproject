@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from django.contrib import messages
 
 from .models import Posts
 from .forms import PostsForm
@@ -31,3 +32,15 @@ def post_form(request):
             post = Posts.objects.create(title=title, body=body, userId=request.user)
             return HttpResponseRedirect("/posts/"+str(post.id))
     return render(request, 'posts/newpost.html', {'form': form, 'url_redirect': 'posts'})
+
+
+@login_required
+def delete_post(request, postid=None):
+
+    if request.method == "GET": 
+        post = get_object_or_404(Posts, id=postid)
+
+        post.delete()
+        messages.success(request, "Post successfully deleted!")
+        return HttpResponseRedirect('/posts/')
+
