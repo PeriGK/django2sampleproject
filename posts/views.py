@@ -14,7 +14,7 @@ def index(request):
 
 
 def detail(request, postid):
-    post = Posts.objects.get(pk=postid)
+    post = get_object_or_404(Posts, pk=postid)
     context = {'post': post}
     return render(request, 'posts/detail.html', context)
 
