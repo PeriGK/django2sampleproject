@@ -15,4 +15,5 @@ urlpatterns = [
     path('new/', views.post_form,name='create'),
     path('api/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls',namespace='rest_framework')),
+    path('post/<str:username>/', views.PostList.as_view(), name='postbyuser')
 ]

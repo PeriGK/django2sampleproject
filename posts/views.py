@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.models import User, Group
-from rest_framework import viewsets
+from rest_framework import viewsets, generics
 from .models import Posts
 from .forms import PostsForm
 from .serializers import UserSerializer, GroupSerializer, PostSerializer
@@ -63,3 +63,12 @@ class GroupViewSet(viewsets.ModelViewSet):
 class PostViewSet(viewsets.ModelViewSet):
     queryset=Posts.objects.all()
     serializer_class = PostSerializer
+
+
+class PostList(generics.ListAPIView):
+    serializer_class = PostSerializer
+
+    def get_queryset(self):
+        username = self.kwargs['username']
+        userid=User.objects.get(username=username)
+        return Posts.objects.filter(userId=userid)
